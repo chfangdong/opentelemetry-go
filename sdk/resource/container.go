@@ -18,18 +18,19 @@ import (
 	"bufio"
 	"context"
 	"errors"
+	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
 	"io"
 	"os"
 	"regexp"
-
-	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
 )
 
 type containerIDProvider func() (string, error)
 
 var (
-	containerID         containerIDProvider = getContainerIDFromCGroup
-	cgroupContainerIDRe                     = regexp.MustCompile(`^.*/(?:.*-)?([0-9a-f]+)(?:\.|\s*$)`)
+	containerID containerIDProvider = getContainerIDFromCGroup
+	//self modify
+	//cgroupContainerIDRe                     = regexp.MustCompile(`^.*/(?:.*-)?([0-9a-f]+)(?:\.|\s*$)`)
+	cgroupContainerIDRe = regexp.MustCompile(`^.*/(?:.*[-:])?([0-9a-f]+)(?:\.|\s*$)`)
 )
 
 type cgroupContainerIDDetector struct{}
